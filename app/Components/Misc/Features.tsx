@@ -1,17 +1,25 @@
 "use client";
 
+import {
+  TrendingUp,
+  Globe,
+  BarChart3,
+  Briefcase,
+  Landmark,
+} from "lucide-react";
+
 const features = [
-  { label: "Economics", icon: "⚡" },
-  { label: "Foreign Relations", icon: "🔍" },
-  { label: "Finance", icon: "💹" },
-  { label: "Entrepreneurship", icon: "📊" },
-  { label: "Politics", icon: "📰" },
+  { label: "Economics", icon: TrendingUp },
+  { label: "Foreign Relations", icon: Globe },
+  { label: "Finance", icon: BarChart3 },
+  { label: "Entrepreneurship", icon: Briefcase },
+  { label: "Politics", icon: Landmark },
 ];
 
 export default function Features() {
   return (
     <div className="relative w-full overflow-hidden py-10 bg-black">
-      {/* fade edges */}
+      {/* Fade edges */}
       <div className="pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent z-10" />
       <div className="pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent z-10" />
 
@@ -32,7 +40,7 @@ export default function Features() {
         }
 
         .animate-marquee {
-          animation: marquee 25s linear infinite;
+          animation: marquee 28s linear infinite;
         }
       `}</style>
     </div>
@@ -41,10 +49,10 @@ export default function Features() {
 
 function FeaturePill({
   label,
-  icon,
+  icon: Icon,
 }: {
   label: string;
-  icon: string;
+  icon: React.ElementType;
 }) {
   return (
     <div
@@ -59,8 +67,8 @@ function FeaturePill({
         whitespace-nowrap
       "
     >
-      <span className="text-lg">{icon}</span>
-      <span className="text-sm font-light">{label}</span>
+      <Icon className="h-4 w-4 text-gray-400" strokeWidth={1.5} />
+      <span className="text-sm font-light tracking-wide">{label}</span>
     </div>
   );
 }

@@ -16,7 +16,7 @@ export default function Button({
   className = "",
 }: ButtonProps) {
   const baseStyles =
-    "relative px-8 py-3 font-mono text-sm tracking-wide rounded-full transition-all duration-300 active:scale-[0.98]";
+    "group relative px-8 py-3 font-mono text-sm tracking-wide rounded-full transition-all duration-300 active:scale-[0.98]";
 
   const variants = {
     primary: `
@@ -48,7 +48,42 @@ export default function Button({
     >
       {/* subtle top gloss */}
       <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/10 to-transparent" />
-      <span className="relative z-10">{children}</span>
+
+      {/* white hover pill */}
+      <span
+        className="
+          pointer-events-none absolute inset-0 rounded-full
+          bg-white
+          opacity-0 scale-95
+          transition-all duration-300
+          group-hover:opacity-100 group-hover:scale-100
+        "
+      />
+
+      {/* text */}
+      <span
+        className="
+          relative z-10
+          transition-all duration-300
+          group-hover:opacity-0
+        "
+      >
+        {children}
+      </span>
+
+      {/* arrow */}
+      <span
+        className="
+          pointer-events-none absolute inset-0 z-10
+          flex items-center justify-center
+          text-black
+          opacity-0 translate-x-3
+          transition-all duration-300
+          group-hover:opacity-100 group-hover:translate-x-0
+        "
+      >
+        →
+      </span>
     </button>
   );
 }

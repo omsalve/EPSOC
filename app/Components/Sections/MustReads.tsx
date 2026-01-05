@@ -1,12 +1,55 @@
 "use client";
 
 import { useState } from "react";
+import { motion, type Variants } from "framer-motion";
 import Card from "@/app/Components/Misc/Card";
 import Features from "@/app/Components/Misc/Features";
 import Button from "../Misc/Button";
+import Indicator from "../Misc/Indicator";
+
+/* -------------------- Motion DNA -------------------- */
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const sectionFade: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 1.2, ease },
+  },
+};
+
+const titleUp: Variants = {
+  hidden: { opacity: 0, y: 32, filter: "blur(8px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 1, ease },
+  },
+};
+
+const grid: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.4,
+    },
+  },
+};
+
+const cardUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease },
+  },
+};
 
 export default function MustReads() {
-  const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [activeFilter] = useState<string>("all");
 
   const articles = [
     {
@@ -37,103 +80,106 @@ export default function MustReads() {
     },
   ];
 
-
-
   const visibleArticles =
     activeFilter === "all"
       ? articles
       : articles.filter((a) => a.category === activeFilter);
 
   return (
-    <section className="relative min-h-screen bg-black text-gray-100 py-20 px-8 md:px-16">
-      {/* Header */}
-      <header className="flex items-center justify-between mb-20">
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-gray-200 text-sm tracking-wider">
-            OPEN CALL FOR HOMOECONOMICUS SPECIAL EDITION
-          </span>
-        </div>
+    <motion.section
+      variants={sectionFade}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-120px" }}
+      className="relative min-h-screen bg-black text-gray-100 py-28 px-10 sm:px-14 md:px-20 lg:px-28 xl:px-36"
 
-        <div className="flex items-center gap-8">
-          <button className="text-gray-300 hover:text-white transition-colors">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
-          </button>
+    >
+      {/* -------------------- Header -------------------- */}
+      <motion.div variants={grid} className="mb-20">
+        <motion.div variants={titleUp}>
+          <Indicator className="inline-flex items-center gap-2 px-4 py-2 border border-gray-800 rounded-full mb-10">
+            <span className="text-gray-400 text-sm tracking-widest">
+              © Homo Economicus
+            </span>
+          </Indicator>
+        </motion.div>
 
-          <button className="flex flex-col gap-1.5 group">
-            <span className="w-7 h-0.5 bg-gray-300 group-hover:bg-white" />
-            <span className="w-7 h-0.5 bg-gray-300 group-hover:bg-white" />
-            <span className="w-7 h-0.5 bg-gray-300 group-hover:bg-white" />
-          </button>
-        </div>
-      </header>
-
-      {/* Title */}
-      <div className="mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-2 border border-gray-800 rounded-full mb-8">
-          <span className="text-xl">©</span>
-          <span className="text-gray-400 text-sm tracking-wider">
-            Homo Economicus
-          </span>
-        </div>
-
-        <div className="flex items-end justify-between gap-10">
-          <div>
+        <div className="flex items-end justify-between gap-12">
+          <motion.div variants={titleUp}>
             <h1 className="text-5xl md:text-7xl font-light mb-6">
               Must <span className="text-gray-500">Reads</span>
             </h1>
-            <p className="text-gray-400 text-lg font-light max-w-2xl">
-              A curated selection of essays, analyses, and long-form work from
-              recent publications.
+
+            <p className="text-gray-400 text-lg font-light max-w-2xl leading-relaxed">
+              A deliberately curated selection of essays, analyses, and long-form
+              work drawn from our most recent publications.
             </p>
-          </div>
+          </motion.div>
 
-          <Button className=" md:block px-6 py-3 ">
-            Access All
-          </Button>
+          <motion.div variants={titleUp}>
+            <Button className="hidden md:block px-6 py-3">
+              Access All
+            </Button>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-
-
-
-      {/* Articles */}
-      <div className="grid md:grid-cols-2 gap-8">
+      {/* -------------------- Articles -------------------- */}
+      <motion.div
+        variants={grid}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="grid md:grid-cols-2 gap-8"
+      >
         {visibleArticles.map((article) => (
-          <Card
-            key={article.id}
-            className="cursor-pointer transition-transform hover:translate-y-[-2px]"
-          >
-            {/* Icon */}
-            <div className="mb-6 w-10 h-10 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </div>
+          <motion.div key={article.id} variants={cardUp}>
+<Card className="
+  h-[320px]
+  flex flex-col
+  cursor-pointer
+  transition-transform
+  hover:-translate-y-1
+  hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
+">
+              <div className="mb-0 w-10 h-10 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center">
+                <svg
+                  className="w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.6}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </div>
 
-            <h3 className="text-xl md:text-2xl font-light text-gray-200 mb-3 leading-snug">
-              {article.title}
-            </h3>
+              <h3 className="text-xl md:text-2xl font-light text-gray-200 mb-3 leading-snug">
+                {article.title}
+              </h3>
 
-            <p className="text-sm text-gray-500">{article.source}</p>
-          </Card>
-
+              <p className="text-sm text-gray-500 tracking-wide">
+                {article.source}
+              </p>
+            </Card>
+          </motion.div>
         ))}
-      </div>
-            {/* Ambient Category Conveyor */}
-      <Features />
-    </section>
+      </motion.div>
+
+      {/* -------------------- Ambient Conveyor -------------------- */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease }}
+        viewport={{ once: true }}
+        className="mt-10"
+      >
+        <Features />
+      </motion.div>
+    </motion.section>
   );
 }

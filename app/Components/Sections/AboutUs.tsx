@@ -1,106 +1,112 @@
 "use client";
 
-import Button from "../Misc/Button";
+import { motion, type Variants } from "framer-motion";
 import Card from "../Misc/Card";
+import Indicator from "../Misc/Indicator";
+
+/* -------------------- Motion DNA -------------------- */
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const section: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 1.2, ease },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 32, filter: "blur(8px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 1, ease },
+  },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.3,
+    },
+  },
+};
 
 export default function AboutUs() {
   return (
-    <div className="relative min-h-screen bg-black text-gray-100 py-20 px-8 md:px-16">
-      {/* Header */}
-      <header className="flex items-center justify-between mb-20">
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-gray-200 text-sm md:text-base font-light tracking-wider">
-            OPEN CALL FOR HOMOECONOMICUS SPECIAL EDITION
-          </span>
-        </div>
+    <motion.section
+      variants={section}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-120px" }}
+      className="relative min-h-screen bg-black text-gray-100 py-28 px-10 sm:px-14 md:px-20 lg:px-28 xl:px-36"
 
-        <div className="flex items-center gap-8">
-          <button className="text-gray-300 hover:text-white transition-colors">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
-          </button>
+    >
+      {/* -------------------- Title -------------------- */}
+      <motion.div
+        variants={stagger}
+        className="text-center mb-24 max-w-5xl mx-auto"
+      >
+        <motion.div variants={fadeUp} className="mb-6">
+          <Indicator>© SAMSOE</Indicator>
+        </motion.div>
 
-          <button className="flex flex-col gap-1.5 group">
-            <span className="w-7 h-0.5 bg-gray-300 group-hover:bg-white" />
-            <span className="w-7 h-0.5 bg-gray-300 group-hover:bg-white" />
-            <span className="w-7 h-0.5 bg-gray-300 group-hover:bg-white" />
-          </button>
-        </div>
-      </header>
-
-      {/* Title Section */}
-      <div className="text-center mb-20 animate-fade-in-up">
-        <Button className="mb-5">© SAMSOE</Button>
-
-        <h1 className="text-5xl md:text-7xl font-light mb-6">
+        <motion.h1
+          variants={fadeUp}
+          className="text-5xl md:text-7xl font-light mb-6 leading-tight"
+        >
           The <span className="font-normal">EPSOC</span>{" "}
           <span className="text-gray-500">Collective</span>
-        </h1>
+        </motion.h1>
 
-        <p className="text-gray-400 text-base md:text-lg max-w-4xl mx-auto font-light leading-relaxed">
-          The shining new economic and political society of Sarla Anil Modi School
-          of Economics, NMIMS, Mumbai.
-        </p>
-      </div>
-
-      {/* Mission & Vision */}
-      <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-        <Card
-          title="Mission"
-          className="animate-fade-in-up-delay-1"
+        <motion.p
+          variants={fadeUp}
+          className="text-gray-400 text-base md:text-lg font-light leading-relaxed"
         >
-          There is a certain propensity to short-sightedness, complacency and blind
-          faith found in today's society, which has led to individualistic
-          behaviour by economic agents, thereby fragmenting any semblance of
-          community and shared sense of responsibility. And that is what EPSOC
-          really addresses, by instilling in its members a fierce spirit of
-          inquiry, and the power to move beyond theory (to praxis).
-        </Card>
+          The economic and political society of the Sarla Anil Modi School of
+          Economics, NMIMS Mumbai — built as a serious institutional space for
+          inquiry, discourse, and praxis.
+        </motion.p>
+      </motion.div>
 
-        <Card
-          title="Vision"
-          className="animate-fade-in-up-delay-2"
-        >
-          Our ultimate vision is to establish Sarla Anil Modi School of Economics
-          as a premier choice for budding academics and field experts to share and
-          discuss their work; we also seek to mobilise a student collective in
-          Mumbai City that actively participates in the economic matters of the
-          city. We intend to achieve this by year-around speaker sessions, guest
-          lectures, a city-level youth parliament, a dedicated magazine and more.
-          For students, this space shall serve as the focal point of
-          extra-curricular contact with the disciplines of economics, political
-          science and philosophy.
-        </Card>
-      </div>
+      {/* -------------------- Mission & Vision -------------------- */}
+      <motion.div
+        variants={stagger}
+        className="grid md:grid-cols-2 gap-10 max-w-7xl mx-auto items-stretch"
+      >
+        {/* Mission */}
+        <motion.div variants={fadeUp} className="h-full">
+          <Card title="Mission" className="h-full flex flex-col">
+            <p className="flex-1">
+              Contemporary society exhibits a persistent tendency toward
+              short-sightedness, complacency, and blind faith — conditions that
+              encourage fragmented, individualistic behaviour among economic
+              agents. EPSOC exists to counter this drift by cultivating a
+              disciplined spirit of inquiry and by pushing its members beyond
+              theory toward praxis.
+            </p>
+          </Card>
+        </motion.div>
 
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 1s ease-out forwards;
-        }
-
-        .animate-fade-in-up-delay-1 {
-          opacity: 0;
-          animation: fade-in-up 1s ease-out 0.3s forwards;
-        }
-
-        .animate-fade-in-up-delay-2 {
-          opacity: 0;
-          animation: fade-in-up 1s ease-out 0.5s forwards;
-        }
-      `}</style>
-    </div>
+        {/* Vision */}
+        <motion.div variants={fadeUp} className="h-full">
+          <Card title="Vision" className="h-full flex flex-col">
+            <p className="flex-1">
+              EPSOC seeks to establish the Sarla Anil Modi School of Economics as
+              a premier platform for academics and practitioners to present,
+              contest, and refine ideas. In parallel, it aims to mobilise a
+              student collective in Mumbai that actively engages with the
+              economic and political realities of the city through year-round
+              speaker sessions, guest lectures, a city-level youth parliament,
+              and a dedicated publication.
+            </p>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }

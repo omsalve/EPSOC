@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import Card from "@/app/Components/Misc/Card";
 import Features from "@/app/Components/Misc/Features";
@@ -57,12 +58,14 @@ export default function MustReads() {
       title: "The End of an Era: America's Iron Curtain on Globalisation",
       source: "Ceteris Paribus | ed.1 Spotlight",
       category: "economics",
+      slug: "endofanera",
     },
     {
       id: 2,
       title: "Stacked Decks and Shattered Chips: The Taiwan Strait Gamble",
       source: "Homoeconomicus | Geopolitical Special Ed.",
       category: "foreign-relations",
+      slug: "stackeddecks",
     },
     {
       id: 3,
@@ -70,6 +73,7 @@ export default function MustReads() {
         "Internal Faultlines: Migration, Water Wars, and the Crisis of Federal Governance in India",
       source: "Homoeconomicus | Geopolitical Special Ed.",
       category: "politics",
+      slug: "internalfaultlines",
     },
     {
       id: 4,
@@ -77,6 +81,7 @@ export default function MustReads() {
         "Do we underestimate the challenges of taking knowledge out of its original context and transferring it to a different context?",
       source: "Ceteris Paribus | ed.1 Spotlight",
       category: "economics",
+      slug: "COTK",
     },
   ];
 
@@ -92,7 +97,6 @@ export default function MustReads() {
       whileInView="show"
       viewport={{ once: true, margin: "-120px" }}
       className="relative min-h-screen bg-black text-gray-100 py-28 px-10 sm:px-14 md:px-20 lg:px-28 xl:px-36"
-
     >
       {/* -------------------- Header -------------------- */}
       <motion.div variants={grid} className="mb-20">
@@ -134,38 +138,42 @@ export default function MustReads() {
       >
         {visibleArticles.map((article) => (
           <motion.div key={article.id} variants={cardUp}>
-<Card className="
+            <Link href={`/blogs/${article.slug}`}>
+              <Card
+                className="
   h-[320px]
   flex flex-col
   cursor-pointer
   transition-transform
   hover:-translate-y-1
   hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
-">
-              <div className="mb-0 w-10 h-10 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.6}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-              </div>
+"
+              >
+                <div className="mb-0 w-10 h-10 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.6}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
 
-              <h3 className="text-xl md:text-2xl font-light text-gray-200 mb-3 leading-snug">
-                {article.title}
-              </h3>
+                <h3 className="text-xl md:text-2xl font-light text-gray-200 mb-3 leading-snug">
+                  {article.title}
+                </h3>
 
-              <p className="text-sm text-gray-500 tracking-wide">
-                {article.source}
-              </p>
-            </Card>
+                <p className="text-sm text-gray-500 tracking-wide">
+                  {article.source}
+                </p>
+              </Card>
+            </Link>
           </motion.div>
         ))}
       </motion.div>

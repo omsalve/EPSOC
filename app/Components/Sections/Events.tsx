@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import Button from "../Misc/Button";
 
@@ -70,12 +71,16 @@ export default function Events() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button className="px-6 py-3 text-gray-300 hover:text-white font-light text-sm">
-              See All Events
-            </Button>
-            <Button className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-full font-light">
-              Contact Us
-            </Button>
+            <Link href="/events">
+              <Button className="px-6 py-3 text-gray-300 hover:text-white font-light text-sm">
+                See All Events
+              </Button>
+            </Link>
+            <Link href="/CTA">
+              <Button className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-full font-light">
+                Contact Us
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </motion.div>
@@ -90,13 +95,14 @@ export default function Events() {
           transition={{ duration: 0.4, ease }}
           className="group relative bg-zinc-950 border border-zinc-900 rounded-3xl overflow-hidden cursor-pointer"
         >
-          <div className="relative h-96 bg-gradient-to-br from-zinc-900 to-black">
+            <div className="relative h-96 bg-gradient-to-br from-zinc-900 to-black">
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
             <div className="w-full h-full flex items-center justify-center text-gray-600 tracking-widest text-sm">
-              [ EPSOC × ANDREEN SHIPYASA ]
+              [ EPSOC × ANDHERIWESTSHITPOSTING ]
             </div>
 
+          <Link href="/events/andheriwestshitposting">
             <motion.button
               whileHover={{ scale: 1.08 }}
               className="absolute bottom-6 left-6 w-12 h-12 bg-black/60 backdrop-blur-md border border-gray-800 rounded-full flex items-center justify-center"
@@ -115,6 +121,7 @@ export default function Events() {
                 />
               </svg>
             </motion.button>
+          </Link>
           </div>
         </motion.div>
       </motion.div>

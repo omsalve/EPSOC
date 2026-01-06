@@ -39,6 +39,7 @@ const stagger: Variants = {
 export default function AboutUs() {
   return (
     <motion.section
+      id="aboutus"
       variants={section}
       initial="hidden"
       whileInView="show"

@@ -98,11 +98,7 @@ export default function Hero() {
               <span>EST. 2025</span>
             </motion.div>
 
-            <motion.div variants={fadeUp}>
-              <Button variant="primary">
-                Executive Council Results
-              </Button>
-            </motion.div>
+            
           </motion.div>
 
           {/* ---------- Right: Logo ---------- */}

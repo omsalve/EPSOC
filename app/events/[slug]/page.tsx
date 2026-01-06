@@ -3,12 +3,12 @@ import { notFound } from "next/navigation";
 import { getAllEvents } from "@/app/lib/events";
 
 // Import event article components
-import AndreenShipyasaEvent from "@/app/content/events/andreen-shipyasa";
+import andheriwestshitposting from "@/app/content/events/andheriwestshitposting";
 import CityYouthParliamentEvent from "@/app/content/events/city-youth-parliament";
 import PolicyRoundtableEvent from "@/app/content/events/policy-roundtable";
 
 const eventPosts: { [key: string]: React.FC } = {
-  andheriwestshitposting: AndreenShipyasaEvent,
+  andheriwestshitposting: andheriwestshitposting,
   "city-youth-parliament": CityYouthParliamentEvent,
   "policy-roundtable": PolicyRoundtableEvent,
 };
@@ -27,7 +27,7 @@ export default async function EventPage({
 
   return (
     <section className="min-h-screen bg-black text-gray-100 py-24 px-10 sm:px-14 md:px-20 lg:px-28 xl:px-36">
-      <div className="max-w-3xl mx-auto">
+      <div className=" mx-auto">
         <PostComponent />
       </div>
     </section>

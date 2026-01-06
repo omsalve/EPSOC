@@ -96,7 +96,7 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
 const MENU_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '#aboutus' },
-  { label: "President's Letter", href: '/PresidentLetter' },
+  { label: 'Editorial', href: '/editorial' },
   { label: 'Events', href: '/events' },
   { label: 'Contact', href: '/CTA' },
   { label: 'Read Homoeconomicus', href: '/read' },

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const CONTACT_TO = process.env.CONTACT_RECIPIENT_EMAIL || '';
 const CONTACT_FROM = process.env.CONTACT_FROM_EMAIL || 'noreply@epsoc.local';
 
@@ -36,6 +35,17 @@ export async function POST(request: NextRequest) {
         <p style="white-space: pre-wrap;">${message}</p>
       </div>
     `;
+
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error('RESEND_API_KEY is not set in the environment');
+      return NextResponse.json(
+        { error: 'Email service is not configured. Please try again later.' },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(apiKey);
 
     await resend.emails.send({
       from: CONTACT_FROM,

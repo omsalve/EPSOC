@@ -21,22 +21,7 @@ export const events: EventMeta[] = [
     year: "2025",
     location: "SAMSOE, NMIMS Mumbai",
   },
-  {
-    slug: "city-youth-parliament",
-    title: "Mumbai Youth Parliament",
-    subtitle: "A city-wide forum on economics, politics, and urban governance.",
-    category: "Flagship Event",
-    year: "2025",
-    location: "Mumbai",
-  },
-  {
-    slug: "policy-roundtable",
-    title: "Policy Roundtable Series",
-    subtitle: "Closed-door discussions with practitioners and faculty.",
-    category: "Roundtable",
-    year: "2025",
-    location: "Campus",
-  },
+ 
 ];
 
 export function getEvent(slug: string): EventMeta | null {

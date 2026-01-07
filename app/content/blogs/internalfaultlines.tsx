@@ -10,6 +10,19 @@ import {
 export default function InternalFaultLines() {
   return (
     <BlogLayout>
+      {/* HEADER */}
+      <header className="mb-10 space-y-4">
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1 text-xs text-white/60">
+          ● Editorial · India · Governance
+        </span>
+        <h1 className="text-3xl md:text-4xl font-light leading-tight text-white">
+          Internal Faultlines
+        </h1>
+        <p className="text-sm text-white/50">
+          Kannan Agrawal
+        </p>
+        <div className="h-px w-full bg-white/10" />
+      </header>
 
       {/* INTRO */}
       <Lead>

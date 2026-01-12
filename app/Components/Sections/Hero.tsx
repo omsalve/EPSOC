@@ -98,7 +98,7 @@ export default function Hero() {
               <span>EST. 2025</span>
             </motion.div>
 
-            
+          
           </motion.div>
 
           {/* ---------- Right: Logo ---------- */}

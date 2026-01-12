@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+
 
 type PDFReaderProps = {
   fileUrl: string;
@@ -13,6 +15,7 @@ export default function PDFReader({
   fileUrl,
   page,
   onPages,
+  zoom,
 }: PDFReaderProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -104,10 +107,21 @@ if (scale > maxWidthScale * 1.15) {
       ref={containerRef}
       className="relative flex h-full w-full items-center justify-center"
     >
-      <canvas
-        ref={canvasRef}
-        className="block bg-white shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
-      />
+      <motion.div
+  key={`${page}-${zoom}`}
+  initial={{ opacity: 0, scale: 0.98 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{
+    duration: 0.45,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="will-change-transform"
+>
+  <canvas
+    ref={canvasRef}
+    className="block bg-white shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+  />
+</motion.div>
 
       {loading && !error && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-xs tracking-[0.3em] text-gray-300">

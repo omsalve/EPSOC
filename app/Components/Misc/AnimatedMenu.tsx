@@ -96,7 +96,7 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
 const MENU_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '#aboutus' },
-  { label: 'Read EPSOC Quarterly', href: '/editorial' },
+  { label: 'Read the Editorial', href: '/archive' },
   { label: 'Events', href: '/events' },
   { label: 'Contact', href: '/CTA' },
 

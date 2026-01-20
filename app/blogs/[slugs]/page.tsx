@@ -2,12 +2,13 @@
 import { notFound } from "next/navigation";
 import { BLOGS } from "../../content/blogs";
 
-export default function BlogPage({
-  params,
-}: {
-  params: { slugs: string };
-}) {
-  const blog = BLOGS.find((b) => b.slug === params.slugs);
+export default async function BlogPage({ params }: { params: { slugs: string } }) {
+  const { slugs } = await params;
+  const slugParam = slugs ?? "";
+
+  const blog =
+    BLOGS.find((b) => b.slug === slugParam) ||
+    BLOGS.find((b) => b.slug.toLowerCase() === slugParam.toLowerCase());
 
   if (!blog) {
     notFound();

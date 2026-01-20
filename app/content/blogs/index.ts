@@ -5,6 +5,24 @@ import StackedDecks from "./stackeddecks";
 
 export const BLOGS = [
   {
+    id: "endofanera",
+    slug: "endofanera",
+    title: "The End of an Era: America's Iron Curtain on Globalisation",
+    author: "Ceteris Paribus",
+    category: "Editorial · Economics",
+    coverImage: "/images/blogbgs/IFBackground.png",
+    Component: EndOfAnEra,
+  },
+  {
+    id: "COTK",
+    slug: "COTK",
+    title: "Call of the King",
+    author: "Editorial",
+    category: "Editorial · Spotlight",
+    coverImage: "/images/blogbgs/EHSbackground.png",
+    Component: COTK,
+  },
+  {
     id: "internalfaultlines",
     slug: "internalfaultlines",
     title: "Internal Faultlines",

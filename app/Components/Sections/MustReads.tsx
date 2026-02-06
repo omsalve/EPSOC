@@ -101,7 +101,7 @@ export default function MustReads() {
       >
         {volumes.map((vol) => (
           <motion.div key={vol.id} variants={cardUp}>
-            <Link href={`/index`}>
+            <Link href={`/archive-index`}>
               <Card
                 className={
                   "h-[360px] flex flex-col cursor-pointer overflow-hidden relative transition-transform hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]"

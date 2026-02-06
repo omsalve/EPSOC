@@ -2,6 +2,7 @@
 
 import LiquidEther from '@/app/Components/Background/LiquidEther';
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import Card from "../Components/Misc/Card";
 
 import vol1 from "@/app/data/articles/articles.vol1.json";
@@ -80,11 +81,15 @@ export default function IndexPage() {
 /* -------------------- Card -------------------- */
 
 function ArticleCard({ article }: { article: Article }) {
+  const router = useRouter();
+  const to = `/archive?vol=${article.volume}&page=${article.page}`;
+
   return (
-    <Link
-      href={`/archive?vol=${article.volume}&page=${article.page}`}
-      className="group"
-    >
+    <Link href={to} className="group" onClick={(e) => {
+      // Force a client navigation to ensure the app-router transitions in production
+      e.preventDefault();
+      router.push(to);
+    }}>
       <Card
         className="
           p-5

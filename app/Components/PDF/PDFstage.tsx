@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useSearchParams, useRouter } from 'next/navigation';
 import PDFReader from './PDFreader';
 
 const cinematicEase = [0.22, 1, 0.36, 1] as const;
@@ -20,15 +21,71 @@ const pdfs = [
 ];
 
 export default function PDFStage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [active, setActive] = useState(pdfs[0]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
 
   // 🔑 zoom multiplier (1 = fit)
   const [zoom, setZoom] = useState(1);
+  // Track the last query we wrote to the URL to avoid reacting to our own updates.
+  const lastWriteRef = useRef<{ vol: string; page: string } | null>(null);
 
-  const next = () => page < pages && setPage(p => p + 1);
-  const prev = () => page > 1 && setPage(p => p - 1);
+  const updateQuery = (vol: string, pageNum: number) => {
+    const pageStr = String(pageNum);
+    lastWriteRef.current = { vol, page: pageStr };
+    try {
+      router.replace(`/archive?vol=${vol}&page=${pageStr}`);
+    } catch (e) {
+      // noop
+    }
+  };
+
+  const next = () => {
+    if (page >= pages) return;
+    const nextPage = page + 1;
+    setPage(nextPage);
+    updateQuery(active.id, nextPage);
+  };
+
+  const prev = () => {
+    if (page <= 1) return;
+    const prevPage = page - 1;
+    setPage(prevPage);
+    updateQuery(active.id, prevPage);
+  };
+
+  // Initialize from URL search params (vol, page). Runs on first render and when params change.
+  useEffect(() => {
+    const volParam = searchParams?.get('vol');
+    const pageParam = searchParams?.get('page');
+
+    const resolved = pdfs.find((p) => p.id === volParam) ?? pdfs[0];
+
+    // If this search param change was just written by us, ignore it to avoid a loop.
+    if (
+      lastWriteRef.current &&
+      lastWriteRef.current.vol === (volParam ?? resolved.id) &&
+      lastWriteRef.current.page === (pageParam ?? '1')
+    ) {
+      lastWriteRef.current = null;
+      return;
+    }
+
+    // Update active volume only when it actually changed.
+    setActive((prev) => {
+      if (prev.id === resolved.id) return prev;
+      // volume changed via URL -> reset zoom
+      setZoom(1);
+      return resolved;
+    });
+
+    const parsed = pageParam ? parseInt(pageParam, 10) : 1;
+    const safe = !isNaN(parsed) && parsed >= 1 ? parsed : 1;
+    setPage((prev) => (prev === safe ? prev : safe));
+  }, [searchParams]);
 
   return (
     <section className="relative min-h-screen bg-black px-6 md:px-16 py-24">
@@ -51,33 +108,37 @@ export default function PDFStage() {
           </div>
 
           {/* Volume Switch */}
-          <nav className="flex flex-col gap-2 pt-2 text-[11px] tracking-[0.3em]">
-            {pdfs.map(pdf => {
-              const isActive = active.id === pdf.id;
-              return (
-                <button
-                  key={pdf.id}
-                  onClick={() => {
-                    setActive(pdf);
-                    setPage(1);
-                    setZoom(1); // reset zoom on volume change
-                  }}
-                  className={`w-fit rounded-full border px-5 py-2 transition ${
-                    isActive
-                      ? 'border-gray-300 bg-gray-100/10 text-gray-100'
-                      : 'border-gray-700/70 bg-black text-gray-500 hover:border-gray-400 hover:text-gray-200'
-                  }`}
-                >
-                  {pdf.label}
-                </button>
-              );
-            })}
-          </nav>
+            <nav className="flex flex-col gap-2 pt-2 text-[11px] tracking-[0.3em]">
+              {pdfs.map((pdf) => {
+                const isActive = active.id === pdf.id;
+                return (
+                  <button
+                    key={pdf.id}
+                    onClick={() => {
+                        setActive(pdf);
+                        setPage(1);
+                        setZoom(1); // reset zoom on volume change
+
+                        // Update URL to reflect the selected volume and reset page to 1
+                        updateQuery(pdf.id, 1);
+                      }}
+                    className={`w-fit rounded-full border px-5 py-2 transition ${
+                      isActive
+                        ? 'border-gray-300 bg-gray-100/10 text-gray-100'
+                        : 'border-gray-700/70 bg-black text-gray-500 hover:border-gray-400 hover:text-gray-200'
+                    }`}
+                  >
+                    {pdf.label}
+                  </button>
+                );
+              })}
+            </nav>
         </div>
 
         {/* ================= RIGHT · PDF (60%) ================= */}
         <motion.div
-          key={`${active.id}-${page}-${zoom}`}
+          // Key on active id only so page/zoom updates don't remount the whole container.
+          key={active.id}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: cinematicEase }}
@@ -92,7 +153,23 @@ export default function PDFStage() {
                   fileUrl={active.src}
                   page={page}
                   zoom={zoom}
-                  onPages={setPages}
+                  onPages={(num) => {
+                    setPages(num);
+
+                    // If current page is outside new bounds, clamp it and sync URL.
+                    setPage((p) => {
+                      let newP = p;
+                      if (num <= 0) newP = 1;
+                      else if (p > num) newP = num;
+                      else if (p < 1) newP = 1;
+
+                      if (newP !== p) {
+                        updateQuery(active.id, newP);
+                      }
+
+                      return newP;
+                    });
+                  }}
                 />
               </div>
             </div>

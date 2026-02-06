@@ -50,45 +50,10 @@ const cardUp: Variants = {
 };
 
 export default function MustReads() {
-  const [activeFilter] = useState<string>("all");
-
-  const articles = [
-    {
-      id: 1,
-      title: "The End of an Era: America's Iron Curtain on Globalisation",
-      source: "Ceteris Paribus | ed.1 Spotlight",
-      category: "economics",
-      slug: "endofanera",
-    },
-    {
-      id: 2,
-      title: "Stacked Decks and Shattered Chips: The Taiwan Strait Gamble",
-      source: "Homoeconomicus | Geopolitical Special Ed.",
-      category: "foreign-relations",
-      slug: "stackeddecks",
-    },
-    {
-      id: 3,
-      title:
-        "Internal Faultlines: Migration, Water Wars, and the Crisis of Federal Governance in India",
-      source: "Homoeconomicus | Geopolitical Special Ed.",
-      category: "politics",
-      slug: "internalfaultlines",
-    },
-    {
-      id: 4,
-      title:
-        "Do we underestimate the challenges of taking knowledge out of its original context and transferring it to a different context?",
-      source: "Ceteris Paribus | ed.1 Spotlight",
-      category: "economics",
-      slug: "COTK",
-    },
+  const volumes = [
+    { id: 'vol1', label: 'Vol. I', page: 1, bg: '/images/vol1.jpg' },
+    { id: 'vol2', label: 'Vol. II', page: 1, bg: '/images/vol2.jpg' },
   ];
-
-  const visibleArticles =
-    activeFilter === "all"
-      ? articles
-      : articles.filter((a) => a.category === activeFilter);
 
   return (
     <motion.section
@@ -111,19 +76,17 @@ export default function MustReads() {
         <div className="flex items-end justify-between gap-12">
           <motion.div variants={titleUp}>
             <h1 className="text-5xl md:text-7xl font-light mb-6">
-              Must <span className="text-gray-500">Reads</span>
+              Read <span className="text-gray-500">Homoeconomicus</span>
             </h1>
 
             <p className="text-gray-400 text-lg font-light max-w-2xl leading-relaxed">
-              A deliberately curated selection of essays, analyses, and long-form
-              work drawn from our most recent publications.
+              Access the two volumes of Homoeconomicus. Click a card to open the
+              selected volume in the archive.
             </p>
           </motion.div>
 
           <motion.div variants={titleUp}>
-            <Button className="hidden md:block px-6 py-3">
-              Access All
-            </Button>
+            <Button className="hidden md:block px-6 py-3">Archive</Button>
           </motion.div>
         </div>
       </motion.div>
@@ -136,42 +99,26 @@ export default function MustReads() {
         viewport={{ once: true }}
         className="grid md:grid-cols-2 gap-8"
       >
-        {visibleArticles.map((article) => (
-          <motion.div key={article.id} variants={cardUp}>
-            <Link href={`/blogs/${article.slug}`}>
+        {volumes.map((vol) => (
+          <motion.div key={vol.id} variants={cardUp}>
+            <Link href={`/index`}>
               <Card
-                className="
-  h-[320px]
-  flex flex-col
-  cursor-pointer
-  transition-transform
-  hover:-translate-y-1
-  hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
-"
+                className={
+                  "h-[360px] flex flex-col cursor-pointer overflow-hidden relative transition-transform hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+                }
               >
-                <div className="mb-0 w-10 h-10 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.6}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
+                <div
+                  className="absolute inset-0 bg-center bg-cover"
+                  style={{
+                    backgroundImage: `url('${vol.bg}')`,
+                  }}
+                />
+
+                <div className="relative z-10 flex h-full flex-col justify-end p-6 bg-gradient-to-t from-black/60 to-transparent">
+                  <span className="text-sm text-gray-400 tracking-wider mb-2">READ</span>
+                  <h3 className="text-2xl md:text-3xl font-light text-white mb-2">{vol.label}</h3>
+                  <p className="text-sm text-gray-300">Open the full volume in the archive</p>
                 </div>
-
-                <h3 className="text-xl md:text-2xl font-light text-gray-200 mb-3 leading-snug">
-                  {article.title}
-                </h3>
-
-                <p className="text-sm text-gray-500 tracking-wide">
-                  {article.source}
-                </p>
               </Card>
             </Link>
           </motion.div>

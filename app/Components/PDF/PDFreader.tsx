@@ -20,6 +20,7 @@ export default function PDFReader({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pdfDocRef = useRef<any>(null);
+  const renderTaskRef = useRef<any>(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -43,7 +44,7 @@ export default function PDFReader({
         pdfDocRef.current = doc;
         onPages(doc.numPages);
 
-        await renderPage(doc, page);
+        await renderPage(doc, page, zoom);
       } catch (err) {
         console.error(err);
         if (!cancelled) setError(true);
@@ -55,15 +56,23 @@ export default function PDFReader({
     loadPdf();
     return () => {
       cancelled = true;
+      if (renderTaskRef.current && typeof renderTaskRef.current.cancel === 'function') {
+        try {
+          renderTaskRef.current.cancel();
+        } catch (e) {
+          // noop
+        }
+        renderTaskRef.current = null;
+      }
     };
   }, [fileUrl, onPages]);
 
   useEffect(() => {
     if (!pdfDocRef.current) return;
-    renderPage(pdfDocRef.current, page);
-  }, [page]);
+    renderPage(pdfDocRef.current, page, zoom);
+  }, [page, zoom]);
 
-  async function renderPage(doc: any, pageNum: number) {
+  async function renderPage(doc: any, pageNum: number, zoomMul = 1) {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -89,17 +98,36 @@ if (scale > maxWidthScale * 1.15) {
 }
 
 
-    const viewport = pdfPage.getViewport({ scale });
+    // Apply zoom multiplier
+    const finalScale = scale * (zoomMul ?? 1);
+    const viewport = pdfPage.getViewport({ scale: finalScale });
 
     canvas.width = viewport.width;
     canvas.height = viewport.height;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    await pdfPage.render({
+    // Cancel any in-flight render on the same canvas before starting a new one.
+    if (renderTaskRef.current && typeof renderTaskRef.current.cancel === 'function') {
+      try {
+        renderTaskRef.current.cancel();
+      } catch (e) {
+        // noop
+      }
+      renderTaskRef.current = null;
+    }
+
+    const task = pdfPage.render({
       canvasContext: ctx,
       viewport,
-    }).promise;
+    });
+    renderTaskRef.current = task;
+    try {
+      await task.promise;
+    } finally {
+      // clear ref if it still points to this finished task
+      if (renderTaskRef.current === task) renderTaskRef.current = null;
+    }
   }
 
   return (
@@ -108,7 +136,6 @@ if (scale > maxWidthScale * 1.15) {
       className="relative flex h-full w-full items-center justify-center"
     >
       <motion.div
-  key={`${page}-${zoom}`}
   initial={{ opacity: 0, scale: 0.98 }}
   animate={{ opacity: 1, scale: 1 }}
   transition={{

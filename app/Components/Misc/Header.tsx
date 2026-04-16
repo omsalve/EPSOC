@@ -31,7 +31,9 @@ export default function Header() {
             {/* Left */}
             <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-wide text-white/90">
               <span className="h-2 w-2 rounded-full bg-green-400" />
-              <span>Open Call for Homoeconomicus Special Edition</span>
+              <Link href="/hamraah">
+  <span>Open Call for Hamraah</span>
+</Link>
             </div>
 
             {/* Center */}

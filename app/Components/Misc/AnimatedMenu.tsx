@@ -38,7 +38,7 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
           {/* Main grid */}
           <div className="relative mx-auto h-full max-w-7xl px-6">
             <div className="grid h-full grid-cols-12 items-center">
-              
+
               {/* Center nav */}
               <motion.nav
                 className="col-span-12 flex flex-col items-center gap-6 text-xl"
@@ -61,7 +61,7 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="hover:opacity-70 transition"
+                      className={`hover:opacity-70 transition ${item.accent ? 'text-red-300' : ''}`}
                     >
                       {item.label}
                     </Link>
@@ -98,7 +98,7 @@ const MENU_ITEMS = [
   { label: 'About Us', href: '#aboutus' },
   { label: 'Read The Editorial', href: '/editorial' },
   { label: 'Read EPSOC Quarterly', href: '/archive' },
+  { label: 'हमराह — Special Edition', href: '/hamraah', accent: true },
   { label: 'Events', href: '/events' },
   { label: 'Contact', href: '/CTA' },
 ];
-    

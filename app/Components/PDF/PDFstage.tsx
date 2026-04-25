@@ -18,6 +18,11 @@ const pdfs = [
     label: 'HOMO ECONOMICUS · VOL II',
     src: '/homoeconvol2.pdf',
   },
+  {
+    id: 'recipvol1',
+    label: 'HOMO RECIPROCANS · VOL I',
+    src: '/homorecipvol1.pdf',
+  },
 ];
 
 export default function PDFStage() {

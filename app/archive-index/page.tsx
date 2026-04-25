@@ -7,6 +7,7 @@ import Card from "../Components/Misc/Card";
 
 import vol1 from "@/app/data/articles/articles.vol1.json";
 import vol2 from "@/app/data/articles/articles.vol2.json";
+import recipvol1 from "@/app/data/articles/articles.recipvol1.json";
 
 type Article = {
   id: string | number;
@@ -18,6 +19,7 @@ type Article = {
 
 const vol1Articles: Article[] = vol1 as unknown as Article[];
 const vol2Articles: Article[] = vol2 as unknown as Article[];
+const recipVol1Articles: Article[] = recipvol1 as unknown as Article[];
 
 export default function IndexPage() {
   return (
@@ -44,13 +46,18 @@ export default function IndexPage() {
   </div>
   
       <div className="px-[30px]">
-        <div className="grid grid-cols-2 gap-x-[30px]">
 
-          {/* ================= VOL I ================= */}
+        {/* ================= HOMO ECONOMICUS ================= */}
+        <h2 className="mb-6 text-[11px] tracking-[0.4em] text-gray-500 uppercase">
+          Homo Economicus
+        </h2>
+        <div className="grid grid-cols-2 gap-x-[30px] mb-16">
+
+          {/* VOL I */}
           <div className="flex flex-col">
-            <h2 className="mb-8 text-[11px] tracking-[0.4em] text-gray-500 uppercase">
+            <h3 className="mb-8 text-[11px] tracking-[0.35em] text-gray-600 uppercase">
               Volume I
-            </h2>
+            </h3>
 
             <div className="flex flex-col gap-3">
               {vol1Articles.map(article => (
@@ -59,11 +66,11 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* ================= VOL II ================= */}
+          {/* VOL II */}
           <div className="flex flex-col">
-            <h2 className="mb-8 text-[11px] tracking-[0.4em] text-gray-500 uppercase">
+            <h3 className="mb-8 text-[11px] tracking-[0.35em] text-gray-600 uppercase">
               Volume II
-            </h2>
+            </h3>
 
             <div className="flex flex-col gap-3">
               {vol2Articles.map(article => (
@@ -73,6 +80,28 @@ export default function IndexPage() {
           </div>
 
         </div>
+
+        {/* ================= HOMO RECIPROCANS ================= */}
+        <h2 className="mb-6 text-[11px] tracking-[0.4em] text-gray-500 uppercase">
+          Homo Reciprocans
+        </h2>
+        <div className="grid grid-cols-2 gap-x-[30px]">
+
+          {/* RECIP VOL I */}
+          <div className="flex flex-col">
+            <h3 className="mb-8 text-[11px] tracking-[0.35em] text-gray-600 uppercase">
+              Volume I
+            </h3>
+
+            <div className="flex flex-col gap-3">
+              {recipVol1Articles.map(article => (
+                <ArticleCard key={article.id} article={article} />
+              ))}
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

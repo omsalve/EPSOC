@@ -13,6 +13,13 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
   return (
     <AnimatePresence>
       {isOpen && (
+        <>
+          {/* Backdrop — closes menu on outside click */}
+          <div
+            className="fixed inset-0 z-[99]"
+            onClick={onClose}
+          />
+
         <motion.div
           className="
             fixed top-0 left-0 w-full
@@ -88,6 +95,7 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
             </div>
           </div>
         </motion.div>
+        </>
       )}
     </AnimatePresence>
   );

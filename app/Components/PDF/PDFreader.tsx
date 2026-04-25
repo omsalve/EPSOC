@@ -98,12 +98,15 @@ if (scale > maxWidthScale * 1.15) {
 }
 
 
-    // Apply zoom multiplier
-    const finalScale = scale * (zoomMul ?? 1);
+    // Apply zoom multiplier and device pixel ratio for sharp rendering
+    const dpr = window.devicePixelRatio || 1;
+    const finalScale = scale * (zoomMul ?? 1) * dpr;
     const viewport = pdfPage.getViewport({ scale: finalScale });
 
     canvas.width = viewport.width;
     canvas.height = viewport.height;
+    canvas.style.width = `${viewport.width / dpr}px`;
+    canvas.style.height = `${viewport.height / dpr}px`;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 

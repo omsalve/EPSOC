@@ -104,8 +104,8 @@ export default function AnimatedMenu({ isOpen, onClose }: AnimatedMenuProps) {
 const MENU_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '#aboutus' },
-  { label: 'Read The Editorial', href: '/editorial' },
-  { label: 'Read EPSOC Quarterly', href: '/archive' },
+  { label: 'Extra Reads', href: '/editorial' },
+  { label: 'Read The Editorial', href: '/archive' },
   { label: 'हमराह — Special Edition', href: '/hamraah', accent: true },
   { label: 'Events', href: '/events' },
   { label: 'Contact', href: '/CTA' },

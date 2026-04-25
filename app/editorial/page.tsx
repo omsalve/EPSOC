@@ -20,7 +20,7 @@ export default function EditorialPage() {
     <div className="min-h-screen bg-black text-zinc-100">
       <main className="mx-auto max-w-6xl px-6 py-20">
         <header className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-light">EPSOC Quarterly — Editorials</h1>
+          <h1 className="text-4xl md:text-5xl font-light">Extra Reads — Editorials</h1>
           <p className="mt-4 text-sm text-zinc-400 max-w-2xl">
             Longform analyses and essays. Click any card to open the full article.
           </p>
